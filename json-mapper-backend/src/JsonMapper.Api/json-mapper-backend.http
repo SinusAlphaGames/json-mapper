@@ -1,0 +1,6 @@
+@json_mapper_backend_HostAddress = http://localhost:5217
+
+GET {{json_mapper_backend_HostAddress}}/api/test
+Accept: application/json
+
+###
