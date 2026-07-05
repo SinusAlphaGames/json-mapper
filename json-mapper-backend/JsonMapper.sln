@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonMapper.Application", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonMapper.Application.Tests", "test\JsonMapper.Application.Tests\JsonMapper.Application.Tests.csproj", "{9011A922-2EE9-4816-B03F-5D7A983C7B5A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonMapper.Infrastructure.IntegrationTests", "test\JsonMapper.Infrastructure.IntegrationTests\JsonMapper.Infrastructure.IntegrationTests.csproj", "{539B1C7B-2149-45DA-B5C9-594663346A47}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -82,6 +84,18 @@ Global
 		{9011A922-2EE9-4816-B03F-5D7A983C7B5A}.Release|x64.Build.0 = Release|Any CPU
 		{9011A922-2EE9-4816-B03F-5D7A983C7B5A}.Release|x86.ActiveCfg = Release|Any CPU
 		{9011A922-2EE9-4816-B03F-5D7A983C7B5A}.Release|x86.Build.0 = Release|Any CPU
+		{539B1C7B-2149-45DA-B5C9-594663346A47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{539B1C7B-2149-45DA-B5C9-594663346A47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{539B1C7B-2149-45DA-B5C9-594663346A47}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{539B1C7B-2149-45DA-B5C9-594663346A47}.Debug|x64.Build.0 = Debug|Any CPU
+		{539B1C7B-2149-45DA-B5C9-594663346A47}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{539B1C7B-2149-45DA-B5C9-594663346A47}.Debug|x86.Build.0 = Debug|Any CPU
+		{539B1C7B-2149-45DA-B5C9-594663346A47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{539B1C7B-2149-45DA-B5C9-594663346A47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{539B1C7B-2149-45DA-B5C9-594663346A47}.Release|x64.ActiveCfg = Release|Any CPU
+		{539B1C7B-2149-45DA-B5C9-594663346A47}.Release|x64.Build.0 = Release|Any CPU
+		{539B1C7B-2149-45DA-B5C9-594663346A47}.Release|x86.ActiveCfg = Release|Any CPU
+		{539B1C7B-2149-45DA-B5C9-594663346A47}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

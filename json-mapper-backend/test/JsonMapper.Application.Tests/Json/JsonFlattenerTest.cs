@@ -11,21 +11,13 @@ namespace JsonMapper.Application.Tests.Json;
 [TestSubject(typeof(JsonFlattener))]
 public class JsonFlattenerTest
 {
-
-    [TestMethod]
-    public void Test()
-    {
-        Assert.AreEqual(2, 1 + 1);
-    }
-    
     [TestMethod]
     public void Flatten_Test()
     {
-        JsonFlattener flattener = new();
         var json = CreateTestJson();
 
         var jsonNode = JsonNode.Parse(json);
-        var flattenedJson = flattener.Flatten(jsonNode);
+        var flattenedJson = JsonFlattener.Flatten(jsonNode);
 
         Assert.IsNotNull(flattenedJson);
 

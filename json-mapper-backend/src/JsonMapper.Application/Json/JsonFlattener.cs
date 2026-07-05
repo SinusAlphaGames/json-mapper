@@ -3,16 +3,16 @@ using Domain.Json;
 
 namespace JsonMapper.Application.Json;
 
-public class JsonFlattener
+public static class JsonFlattener
 {
-    public IReadOnlyList<FieldNode> Flatten(JsonNode JsonRoot)
+    public static IReadOnlyList<FieldNode> Flatten(JsonNode JsonRoot)
     {
         var result = new List<FieldNode>();
         ProcessNode(JsonRoot, parentPath: "", depth: 0, result);
         return result;
     }
 
-    private void ProcessNode(JsonNode? node, string parentPath, int depth, List<FieldNode> result)
+    private static void ProcessNode(JsonNode? node, string parentPath, int depth, List<FieldNode> result)
     {
         if (node is null)
             return;
