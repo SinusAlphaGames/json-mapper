@@ -1,0 +1,17 @@
+{
+  "appName": "ShopCore",
+  "env": "development",
+  "version": "1.0.0",
+  "address": "http://localhost:5000",
+  "logging": {
+    "level": "Information",
+    "prov": ["Console", "File"],
+    "file": {
+      "path": "/logs/app.log",
+      "maxFileSizeMB": 50,
+      "retentionDays": 14
+    }
+  }
+}
+
+

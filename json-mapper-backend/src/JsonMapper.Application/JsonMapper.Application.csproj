@@ -7,10 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <!-- Internal -->
-        <ProjectReference Include="../JsonMapper.Domain/JsonMapper.Domain.csproj" />
-        
+        <PackageReference Include="MediatR" Version="14.2.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0" />
+        
+        <ProjectReference Include="../JsonMapper.Domain/JsonMapper.Domain.csproj" />
     </ItemGroup>
 
 </Project>

@@ -4,3 +4,10 @@ GET {{json_mapper_backend_HostAddress}}/api/test
 Accept: application/json
 
 ###
+
+POST {{json_mapper_backend_HostAddress}}/api/test
+Content-Type: application/json
+
+{
+    "name": "dummytestname"
+}

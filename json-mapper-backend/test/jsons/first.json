@@ -1,0 +1,19 @@
+{
+  "appName": "ShopCore",
+  "version": "1.0.0",
+  "environment": "development",
+  "port": 5000,
+  "testAddresses" : {
+    "testAddress1" : "testAddress1",
+    "testAddress2" : "testAddress2"
+  },
+  "logging": {
+    "level": "Information",
+    "providers": ["Console", "File"],
+    "file": {
+      "path": "/logs/app.log",
+      "maxFileSizeMB": 50,
+      "retentionDays": 14
+    }
+  } 
+}

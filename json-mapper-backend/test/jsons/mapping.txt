@@ -1,0 +1,10 @@
+appName -> appName
+version -> version
+environment -> env
+port -> BRAK
+BRAK -> address
+testAddressess -> BRAK
+
+
+logging.level -> logging.level
+logging.providers -> logging.prov
