@@ -1,20 +1,18 @@
 using System.Net.Http.Json;
 using JsonMapper.Application.Json;
+using JsonMapper.Infrastructure.Embedding.QdrantIntegration.Search;
 using Microsoft.Extensions.Logging;
 
 namespace JsonMapper.Infrastructure.Embedding.QdrantIntegration;
 
 public class QdrantEmbeddingRepository(HttpClient httpClient, ILogger<QdrantEmbeddingRepository> logger) : IEmbeddingRepository
 {
-    public async Task PutEmbedding(string propertyPath, float[] embedding)
+    public async Task PutEmbedding(long id, string propertyPath, float[] embedding)
     {
         var QdrantPoint = new QdrantPoint();
-        QdrantPoint.Id = 1;
+        QdrantPoint.Id = id;
         QdrantPoint.Vector = embedding;
-        QdrantPoint.Payload = new
-        {
-            path = propertyPath
-        };
+        QdrantPoint.Payload = new QdrantPointPayload(propertyPath);
 
         var request = new QdrantUpsertRequest();
         request.Points.Add(QdrantPoint);
@@ -40,5 +38,23 @@ public class QdrantEmbeddingRepository(HttpClient httpClient, ILogger<QdrantEmbe
         });
 
         putCollectionResponse.EnsureSuccessStatusCode();
+    }
+    
+    public async Task<float> SearchEmbedding(float[] embedding)
+    {
+        var response = await httpClient.PostAsJsonAsync("/collections/json_fields/points/search", new
+        {
+            vector = embedding,
+            limit = 5,
+            with_payload = true
+        });
+        
+        var result = await response.Content.ReadFromJsonAsync<QdrantSearchResponse>();
+        
+        foreach (var qdrantSearchedValue in result!.Result)
+        {
+            logger.LogInformation("Qdrant result = {qdrantSearchedValueScore}: payload = {payload}", qdrantSearchedValue.Score, qdrantSearchedValue.Payload.Path);    
+        }
+        return result!.Result.FirstOrDefault().Score;
     }
 }

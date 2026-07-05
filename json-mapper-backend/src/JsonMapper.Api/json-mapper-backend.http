@@ -29,3 +29,14 @@ POST http://localhost:11434/api/embeddings
   "model": "nomic-embed-text",
   "prompt": "address.city"
 }
+
+
+###
+
+POST http://localhost:6333/collections/json_fields/points/scroll
+
+{
+  "limit": 100,
+  "with_payload": true,
+  "with_vector": false
+}

@@ -15,9 +15,18 @@ public class CreateJsonMappingHandler(
         var jsonNode = JsonNode.Parse(request.Json);
         var flattenJsonFields = JsonFlattener.Flatten(jsonNode);
         logger.LogInformation("Flatten json field path = {Path}",  flattenJsonFields[0].Path);
-        var embedding = embeddingProvider.GetEmbedding(flattenJsonFields[0].Path, cancellationToken);
+
+        var id = 0;
+        foreach (var flattenJsonField in flattenJsonFields)
+        {
+            id++;
+            var embedding = embeddingProvider.GetEmbedding(flattenJsonField.Path, cancellationToken);
+            embeddingRepository.PutEmbedding(id, flattenJsonField.Path, embedding.Result);    
+        }
         
-        embeddingRepository.PutEmbedding(flattenJsonFields[0].Path, embedding.Result);
+        
+        var testEmbedding = embeddingProvider.GetEmbedding("id", cancellationToken);
+        embeddingRepository.SearchEmbedding(testEmbedding.Result);
         
         return Task.FromResult(0);
     }
