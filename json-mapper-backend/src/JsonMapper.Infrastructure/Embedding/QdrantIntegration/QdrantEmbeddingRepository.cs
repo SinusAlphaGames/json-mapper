@@ -7,12 +7,12 @@ namespace JsonMapper.Infrastructure.Embedding.QdrantIntegration;
 
 public class QdrantEmbeddingRepository(HttpClient httpClient, ILogger<QdrantEmbeddingRepository> logger) : IEmbeddingRepository
 {
-    public async Task PutEmbedding(long id, string propertyPath, float[] embedding)
+    public async Task PutEmbedding(long id, long documentId, string propertyPath, float[] embedding)
     {
         var QdrantPoint = new QdrantPoint();
         QdrantPoint.Id = id;
         QdrantPoint.Vector = embedding;
-        QdrantPoint.Payload = new QdrantPointPayload(propertyPath);
+        QdrantPoint.Payload = new QdrantPointPayload(propertyPath, documentId);
 
         var request = new QdrantUpsertRequest();
         request.Points.Add(QdrantPoint);

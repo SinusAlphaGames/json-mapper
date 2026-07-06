@@ -18,7 +18,51 @@ POST {{json_mapper_backend_HostAddress}}/api/mapping/json
 Content-Type: application/json
 
 {
-  "json": "{\"id\":1,\"name\":\"Anna Kowalska\",\"age\":28,\"email\":\"anna.kowalska@example.com\",\"isActive\":true,\"address\":{\"street\":\"ul. Kwiatowa 10\",\"city\":\"Wroclaw\",\"postalCode\":\"50-001\",\"country\":\"Poland\"},\"hobbies\":[\"reading\",\"traveling\",\"programming\"],\"createdAt\":\"2026-07-05T12:00:00Z\"}"
+    "firstJson" : {
+      "id": 1,
+      "name": "Anna Kowalska",
+      "age": 28,
+      "email": "anna.kowalska@example.com",
+      "isActive": true,
+      "address": {
+        "street": "ul. Kwiatowa 10",
+        "city": "Wroclaw",
+        "postalCode": "50-001",
+        "country": "Poland"
+      },
+      "hobbies": [
+        "reading",
+        "traveling",
+        "programming"
+      ],
+      "createdAt": "2026-07-05T12:00:00Z"
+    
+    },
+    "secondJson" : {
+        "userId": 2,
+        "fullName": "Jan Nowak",
+        "contact": {
+            "emailAddress": "jan.nowak@example.com",
+            "location": {
+                "cityName": "Poznan",
+                "streetAddress": "ul. Lipowa 5",
+                "zip": "60-101",
+                "countryName": "Poland"
+            }
+        },
+        "profile": {
+            "ageYears": 34,
+            "active": false,
+            "hobbiesList": [
+                "cycling",
+                "chess",
+                "photography"
+              ]
+            },
+            "metadata": {
+                "createdTimestamp": "2026-07-04T09:30:00Z"
+        }
+    }
 }
 
 ###

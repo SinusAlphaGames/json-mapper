@@ -12,8 +12,9 @@ public class CreateJsonMappingHandler(
 {
     public Task Handle(CreateJsonMappingCommand request, CancellationToken cancellationToken)
     {
-        var jsonNode = JsonNode.Parse(request.Json);
-        var flattenJsonFields = JsonFlattener.Flatten(jsonNode);
+        // var jsonNode = JsonNode.Parse(request.FirstJson);
+        logger.LogInformation("Input json = {firstJson}",  request.FirstJson);
+        var flattenJsonFields = JsonFlattener.Flatten(request.FirstJson);
         logger.LogInformation("Flatten json field path = {Path}",  flattenJsonFields[0].Path);
 
         var id = 0;
@@ -21,7 +22,7 @@ public class CreateJsonMappingHandler(
         {
             id++;
             var embedding = embeddingProvider.GetEmbedding(flattenJsonField.Path, cancellationToken);
-            embeddingRepository.PutEmbedding(id, flattenJsonField.Path, embedding.Result);    
+            embeddingRepository.PutEmbedding(id, 1, flattenJsonField.Path, embedding.Result);    
         }
         
         
