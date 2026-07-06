@@ -7,7 +7,7 @@ namespace JsonMapper.Infrastructure.Embedding.QdrantIntegration;
 
 public class QdrantEmbeddingRepository(HttpClient httpClient, ILogger<QdrantEmbeddingRepository> logger) : IEmbeddingRepository
 {
-    public async Task PutEmbedding(long id, long documentId, string propertyPath, float[] embedding)
+    public async Task PutEmbedding(Guid id, Guid documentId, string propertyPath, float[] embedding)
     {
         var QdrantPoint = new QdrantPoint();
         QdrantPoint.Id = id;

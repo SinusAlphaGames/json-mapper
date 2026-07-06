@@ -11,7 +11,6 @@ public class OllamaEmbeddingProvider(HttpClient httpClient, ILogger<OllamaEmbedd
         var body = new OllamaEmbeddingRequest("nomic-embed-text", text);
         var response = await httpClient.PostAsJsonAsync("/api/embeddings", body, cancellationToken: cancellationToken);
         var result = await response.Content.ReadFromJsonAsync<OllamaEmbeddingResponse>(cancellationToken: cancellationToken);
-        logger.LogInformation("Embedding: {Embedding}", result.Embedding);
         return result!.Embedding;
     }
 }

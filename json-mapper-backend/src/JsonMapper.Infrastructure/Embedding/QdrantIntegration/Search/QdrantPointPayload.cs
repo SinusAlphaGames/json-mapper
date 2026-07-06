@@ -1,3 +1,3 @@
 namespace JsonMapper.Infrastructure.Embedding.QdrantIntegration.Search;
 
-public record QdrantPointPayload(string Path, long documentId);
+public record QdrantPointPayload(string Path, Guid documentId);
