@@ -1,4 +1,5 @@
 using System.Net.Http.Json;
+using Domain.Json;
 using JsonMapper.Application.Json;
 using JsonMapper.Infrastructure.Embedding.QdrantIntegration.Search;
 using Microsoft.Extensions.Logging;
@@ -40,21 +41,31 @@ public class QdrantEmbeddingRepository(HttpClient httpClient, ILogger<QdrantEmbe
         putCollectionResponse.EnsureSuccessStatusCode();
     }
     
-    public async Task<float> SearchEmbedding(float[] embedding)
+    public async Task<IReadOnlyList<EmbeddingSearchResult>> SearchEmbedding(float[] embedding, Guid documentId)
     {
         var response = await httpClient.PostAsJsonAsync("/collections/json_fields/points/search", new
         {
             vector = embedding,
             limit = 5,
-            with_payload = true
+            with_payload = true,
+            filter = new
+            {
+                must = new[]
+                {
+                    new
+                    {
+                        key = "documentId",
+                        match = new
+                        {
+                            value = documentId
+                        }
+                    }
+                }
+            }
         });
         
         var result = await response.Content.ReadFromJsonAsync<QdrantSearchResponse>();
         
-        foreach (var qdrantSearchedValue in result!.Result)
-        {
-            logger.LogInformation("Qdrant result = {qdrantSearchedValueScore}: payload = {payload}", qdrantSearchedValue.Score, qdrantSearchedValue.Payload.Path);    
-        }
-        return result!.Result.FirstOrDefault().Score;
+        return result.Result;
     }
 }
