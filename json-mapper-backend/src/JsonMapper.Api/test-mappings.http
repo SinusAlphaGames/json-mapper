@@ -1,0 +1,168 @@
+@json_mapper_backend_HostAddress = http://localhost:5217
+
+POST {{json_mapper_backend_HostAddress}}/api/mapping/json
+Content-Type: application/json
+
+{
+    "firstJson" : {
+      "id": 1,
+      "name": "Anna Kowalska",
+      "age": 28,
+      "email": "anna.kowalska@example.com",
+      "isActive": true,
+      "address": {
+        "street": "ul. Kwiatowa 10",
+        "city": "Wroclaw",
+        "postalCode": "50-001",
+        "country": "Poland"
+      },
+      "hobbies": [
+        "reading",
+        "traveling",
+        "programming"
+      ],
+      "createdAt": "2026-07-05T12:00:00Z"
+    
+    },
+    "secondJson" : {
+        "userId": 2,
+        "fullName": "Jan Nowak",
+        "contact": {
+            "emailAddress": "jan.nowak@example.com",
+            "location": {
+                "cityName": "Poznan",
+                "streetAddress": "ul. Lipowa 5",
+                "zip": "60-101",
+                "countryName": "Poland"
+            }
+        },
+        "profile": {
+            "ageYears": 34,
+            "active": false,
+            "hobbiesList": [
+                "cycling",
+                "chess",
+                "photography"
+              ]
+            },
+            "metadata": {
+                "createdTimestamp": "2026-07-04T09:30:00Z"
+        }
+    }
+}
+
+
+###
+
+POST {{json_mapper_backend_HostAddress}}/api/mapping/json
+Content-Type: application/json
+
+{
+  "firstJson": {
+    "productId": 1001,
+    "title": "Wireless Mouse",
+    "price": 29.99,
+    "inStock": true,
+    "specs": {
+      "brand": "Logitech",
+      "connectivity": "Bluetooth",
+      "batteryLifeHours": 24
+    },
+    "tags": ["electronics", "peripherals", "computer"]
+  },
+  "secondJson": {
+    "id": "A-998",
+    "name": "Bluetooth Mouse Logitech",
+    "cost": 31.50,
+    "availability": "available",
+    "details": {
+      "manufacturer": "Logitech",
+      "connectionType": "wireless bluetooth",
+      "battery": {
+        "hours": 25
+      }
+    },
+    "categories": ["computer accessories", "mouse", "wireless devices"]
+  }
+}
+
+###
+
+
+POST {{json_mapper_backend_HostAddress}}/api/mapping/json
+Content-Type: application/json
+
+{
+  "firstJson": {
+    "employeeId": 501,
+    "fullName": "Michael Smith",
+    "role": "Software Engineer",
+    "salary": 8500,
+    "active": true,
+    "contact": {
+      "email": "michael.smith@company.com",
+      "phone": "+48 500 600 700"
+    },
+    "skills": ["C#", "Azure", "Docker"],
+    "address": {
+      "city": "Warsaw",
+      "country": "Poland"
+    }
+  },
+  "secondJson": {
+    "id": 77,
+    "name": "M. Smith",
+    "position": "Backend Developer",
+    "compensation": {
+      "monthly": 8700
+    },
+    "isActive": true,
+    "communication": {
+      "emailAddress": "m.smith@company.com",
+      "phoneNumber": "+48 500-600-700"
+    },
+    "competencies": ["dotnet", "cloud", "containers"],
+    "location": {
+      "cityName": "Warszawa",
+      "countryName": "PL"
+    }
+  }
+}
+
+###
+
+POST {{json_mapper_backend_HostAddress}}/api/mapping/json
+Content-Type: application/json
+
+{
+  "firstJson": {
+    "deviceId": "sensor-001",
+    "timestamp": "2026-07-06T10:00:00Z",
+    "metrics": {
+      "temperature": 22.5,
+      "humidity": 55,
+      "batteryLevel": 87
+    },
+    "status": "ok",
+    "location": {
+      "lat": 52.4064,
+      "lon": 16.9252
+    }
+  },
+  "secondJson": {
+    "id": "dev-99",
+    "time": "2026-07-06T10:00:05Z",
+    "data": {
+      "tempC": 22.7,
+      "humPercent": 54,
+      "battery": {
+        "percent": 86
+      }
+    },
+    "state": "healthy",
+    "geo": {
+      "latitude": 52.41,
+      "longitude": 16.93
+    }
+  }
+}
