@@ -1,7 +1,7 @@
 export interface Mapping {
     sourceField: string;
     targetField: string;
-    score: number;
+    score: number | null;
 }
 
 export interface MappingResponse {
