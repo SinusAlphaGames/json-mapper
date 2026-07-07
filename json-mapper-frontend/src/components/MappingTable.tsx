@@ -41,8 +41,19 @@ function MappingTable({ mappings, onChange, targetOptions }: Props) {
         
         onChange(updated);
     };
-    
 
+    function getConfidenceClass(mapping: Mapping) {
+
+        if (mapping.score === null) {
+            return "";
+        }
+
+        if (mapping.sourceField === mapping.targetField) {
+            return "exact-match";
+        }
+
+        return "mapped-match";
+    }
 
     return (
         <table>
@@ -68,7 +79,7 @@ function MappingTable({ mappings, onChange, targetOptions }: Props) {
             {
                 mappings.map((mapping, index) => (
 
-                    <tr key={index}>
+                    <tr key={index} className={getConfidenceClass(mapping)}>
 
                         <td>
                             {mapping.sourceField}
