@@ -1,53 +1,47 @@
-import type {Mapping, MappingResponse} from "../types/mapping";
-import {useState} from "react";
+import type {Mapping} from "../types/mapping";
 
 
 interface Props {
-    data: MappingResponse;
+    mappings: Mapping[];
+    onChange: (
+        mappings: Mapping[]
+    ) => void;
+    targetOptions: string[];
 }
 
 
-function MappingTable({ data }: Props) {
-    const initialMappings: Mapping[] = [
-        ...data.mappings,
-
-        ...data.unmappedSourcePaths.map(source => ({
-            sourceField: source,
-            targetField: "",
-            score: null
-        }))
-    ];
-    
-    
-    const [mappings, setMappings] = useState<Mapping[]>(
-        initialMappings
-    );
-
-    const targetOptions = [
-        ...new Set([
-            ...data.mappings.map(x => x.targetField),
-            ...data.unusedTargetPaths
-        ])
-    ];
+function MappingTable({ mappings, onChange, targetOptions }: Props) {
 
     const handleTargetChange = (
         sourceField: string,
         newTarget: string
     ) => {
 
-        setMappings(current =>
-            current.map(mapping => {
-
-                if (mapping.sourceField === sourceField) {
-                    return {
-                        ...mapping,
-                        targetField: newTarget,
-                    };
+        const updated = mappings.map(mapping =>
+            mapping.sourceField === sourceField
+                ? {
+                    ...mapping,
+                    targetField: newTarget,
+                    score: null
                 }
-
-                return mapping;
-            })
+                : mapping
         );
+        
+        onChange(updated);
+        
+        // setMappings(current =>
+        //     current.map(mapping => {
+        //
+        //         if (mapping.sourceField === sourceField) {
+        //             return {
+        //                 ...mapping,
+        //                 targetField: newTarget,
+        //             };
+        //         }
+        //
+        //         return mapping;
+        //     })
+        // );
     };
 
 

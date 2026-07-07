@@ -1,16 +1,17 @@
 import {mapJsonStrings} from "./api/mappingApi.ts";
 import {useState} from "react";
 import MappingTable from "./components/MappingTable";
-import type {MappingResponse} from "./types/mapping.ts";
+import type {Mapping, MappingResponse} from "./types/mapping.ts";
 
 function App() {
 
     const [firstJson, setFirstJson] = useState("");
     const [secondJson, setSecondJson] = useState("");
 
-    const [result, setResult] =
-        useState<MappingResponse | null>(null);
+    const [result, setResult] = useState<MappingResponse | null>(null);
 
+    const [mappings, setMappings] = useState<Mapping[]>([]);
+    const [targetOptions, setTargetOptions] = useState<string[]>([]);
 
     const handleMapping = async () => {
 
@@ -18,10 +19,32 @@ function App() {
             firstJson,
             secondJson
         );
-
-        // console.log(response);
-
         setResult(response);
+
+        const allMappings = [
+            ...response.mappings,
+
+            ...response.unmappedSourcePaths.map(source => ({
+                sourceField: source,
+                targetField: "",
+                score: null
+            }))
+        ];
+
+
+        setMappings(allMappings);
+
+        const allTargets = [
+            ...new Set([
+                ...response.mappings.map(
+                    x => x.targetField
+                ),
+                ...response.unusedTargetPaths
+            ])
+        ];
+
+
+        setTargetOptions(allTargets);
     };
 
 
@@ -65,7 +88,7 @@ function App() {
 
             {
                 result && (
-                    <MappingTable data={result}/>
+                    <MappingTable mappings={mappings} onChange={setMappings} targetOptions={targetOptions}/>
                 )
             }
 
