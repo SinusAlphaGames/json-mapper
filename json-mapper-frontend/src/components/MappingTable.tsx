@@ -17,32 +17,31 @@ function MappingTable({ mappings, onChange, targetOptions }: Props) {
         newTarget: string
     ) => {
 
-        const updated = mappings.map(mapping =>
-            mapping.sourceField === sourceField
-                ? {
+        const updated = mappings.map(mapping => {
+            if (mapping.sourceField === sourceField) {
+                return {
+                        ...mapping,
+                        targetField: newTarget,
+                        score: null
+                };
+            }
+
+            if (
+                newTarget !== "" && mapping.targetField === newTarget
+            ) {
+                return {
                     ...mapping,
-                    targetField: newTarget,
+                    targetField: "",
                     score: null
-                }
-                : mapping
-        );
+                };
+            }
+            
+            return mapping;
+        });
         
         onChange(updated);
-        
-        // setMappings(current =>
-        //     current.map(mapping => {
-        //
-        //         if (mapping.sourceField === sourceField) {
-        //             return {
-        //                 ...mapping,
-        //                 targetField: newTarget,
-        //             };
-        //         }
-        //
-        //         return mapping;
-        //     })
-        // );
     };
+    
 
 
     return (
