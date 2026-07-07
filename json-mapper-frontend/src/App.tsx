@@ -56,27 +56,28 @@ function App() {
                 JSON Mapper
             </h1>
             
-            <textarea
-                placeholder="First JSON"
-                value={firstJson}
-                onChange={
-                    e => setFirstJson(e.target.value)
-                }
-                rows={20}
-                cols={50}
-            />
-
-
-            <textarea
-                placeholder="Second JSON"
-                value={secondJson}
-                onChange={
-                    e => setSecondJson(e.target.value)
-                }
-                rows={20}
-                cols={50}
-            />
-
+            <div>
+                <textarea
+                    placeholder="First JSON"
+                    value={firstJson}
+                    onChange={
+                        e => setFirstJson(e.target.value)
+                    }
+                    rows={20}
+                    cols={50}
+                />
+    
+    
+                <textarea
+                    placeholder="Second JSON"
+                    value={secondJson}
+                    onChange={
+                        e => setSecondJson(e.target.value)
+                    }
+                    rows={20}
+                    cols={50}
+                />
+            </div>
 
             <br />
 

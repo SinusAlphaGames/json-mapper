@@ -1,17 +1,334 @@
-* {
-  box-sizing: border-box;
-}
+/** {*/
+/*  box-sizing: border-box;*/
+/*}*/
 
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #f4f4f4;
-}
+/*body {*/
+/*  margin: 0;*/
+/*  font-family: Arial, Helvetica, sans-serif;*/
+/*  background: #f4f4f4;*/
+/*}*/
 
 .exact-match {
   background-color: #d4edda;
 }
 
+/*.mapped-match {*/
+/*  background-color: #fff3cd;*/
+/*}*/
+
+
+/* ===== Global ===== */
+
+body {
+  margin: 0;
+  padding: 0;
+
+  font-family:
+          "Segoe UI",
+          "Trebuchet MS",
+          Arial,
+          sans-serif;
+
+  background:
+          linear-gradient(
+                  135deg,
+                  #fff0f6,
+                  #fff7fb
+          );
+
+  color: #4a2040;
+}
+
+
+/* główny obszar */
+
+body > #root > div {
+  max-width: 1400px;
+  margin: 40px auto;
+  padding: 30px;
+}
+
+
+/* nagłówek */
+
+h1 {
+  font-size: 34px;
+  color: #d63384;
+
+  text-shadow:
+          0 2px 8px rgba(214,51,132,.2);
+}
+
+
+/* textarea */
+
+textarea {
+  width: 48%;
+  min-height: 350px;
+
+  margin-right: 20px;
+  padding: 18px;
+
+  border-radius: 18px;
+
+  border:
+          2px solid #f8bbd0;
+
+  background:
+          rgba(255,255,255,.85);
+
+  color: #5c2145;
+
+  font-family:
+          "Courier New",
+          monospace;
+
+  box-shadow:
+          0 8px 20px rgba(214,51,132,.12);
+
+  transition:
+          .2s;
+}
+
+
+textarea {
+  display: inline-block;
+  width: calc(45% - 15px);
+  margin-right: 20px;
+  vertical-align: top;
+}
+
+textarea:focus {
+  outline: none;
+
+  border-color: #ec407a;
+
+  box-shadow:
+          0 0 0 4px rgba(236,64,122,.15);
+}
+
+
+/* przycisk */
+
+button {
+  margin-top: 25px;
+
+  padding: 13px 32px;
+
+  border: none;
+
+  border-radius: 999px;
+
+  background:
+          linear-gradient(
+                  135deg,
+                  #ec407a,
+                  #d81b60
+          );
+
+  color: white;
+
+  font-size: 16px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow:
+          0 8px 18px rgba(216,27,96,.25);
+}
+
+
+button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+          0 12px 25px rgba(216,27,96,.35);
+}
+
+
+/* tabela */
+
+table {
+  width: 90%;
+  margin: 40px auto 0;
+
+  border-collapse: separate;
+  border-spacing: 0;
+
+  background: white;
+
+  border-radius: 16px;
+
+  overflow: hidden;
+
+  box-shadow:
+          0 8px 25px rgba(0,0,0,.08);
+}
+
+
+/* nagłówek tabeli */
+
+thead {
+
+  background:
+          linear-gradient(
+                  135deg,
+                  #f06292,
+                  #ec407a
+          );
+
+  color:white;
+}
+
+
+th {
+  padding: 10px 14px;
+  font-size: 13px;
+}
+
+
+td {
+  padding: 9px 14px;
+  font-size: 13px;
+}
+
+
+/* select */
+
+select {
+
+  width:100%;
+
+  min-width:200px;
+
+  padding:7px 10px;
+
+  border-radius:12px;
+
+  border:
+          2px solid #f8bbd0;
+
+  background:white;
+
+  color:#880e4f;
+
+}
+
+
+select:focus {
+
+  outline:none;
+
+  border-color:#ec407a;
+
+}
+
+
+/* dopasowania */
+
+/*.exact-match {*/
+
+/*  background:*/
+/*          #ffe4f0;*/
+/*}*/
+
+
 .mapped-match {
-  background-color: #fff3cd;
+
+  background:
+          #fff0b8;
+}
+
+
+/* ręczne mapowania */
+
+select option[value=""] {
+
+  color:#999;
+}
+
+/* ===== Floating CSS flowers ===== */
+
+body::before,
+body::after {
+  content: "🌸";
+
+  position: fixed;
+
+  font-size: 70px;
+
+  pointer-events: none;
+
+  z-index: -1;
+
+  opacity: 0.35;
+
+  animation:
+          floatFlower 8s ease-in-out infinite;
+}
+
+
+/* lewy kwiatek */
+
+body::before {
+
+  left: 5%;
+  top: 15%;
+
+  animation-delay: 0s;
+}
+
+
+/* prawy kwiatek */
+
+body::after {
+
+  content: "🌺";
+
+  right: 8%;
+  bottom: 15%;
+
+  font-size: 90px;
+
+  animation-delay: 3s;
+}
+
+
+
+@keyframes floatFlower {
+
+  0% {
+    transform:
+            translateY(0)
+            rotate(0deg);
+  }
+
+
+  25% {
+    transform:
+            translateY(-25px)
+            rotate(10deg);
+  }
+
+
+  50% {
+    transform:
+            translateY(10px)
+            rotate(-10deg);
+  }
+
+
+  75% {
+    transform:
+            translateY(-15px)
+            rotate(8deg);
+  }
+
+
+  100% {
+    transform:
+            translateY(0)
+            rotate(0deg);
+  }
 }
