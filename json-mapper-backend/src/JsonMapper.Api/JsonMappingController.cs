@@ -1,4 +1,5 @@
 using JsonMapper.Application.Json;
+using JsonMapper.Application.Json.get;
 using JsonMapper.Application.Json.save;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -22,5 +23,14 @@ public class JsonMappingController(IMediator mediator) : ControllerBase
     {
         await mediator.Send(command);
         return Ok();
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> GetJsonMappings()
+    {
+        var mappings = await mediator.Send(
+            new GetJsonMappingsQuery());
+
+        return Ok(mappings);
     }
 }
