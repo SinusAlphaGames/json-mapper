@@ -1,6 +1,7 @@
 using Domain.Mappings;
 using JsonMapper.Application.Json;
 using JsonMapper.Application.Json.get;
+using JsonMapper.Application.Json.GetList;
 using JsonMapper.Application.Json.save;
 using JsonMapper.Infrastructure.PostgresDbConfiguration;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,28 @@ public class JsonMappingRepository(AppDbContext context) : IJsonMappingRepositor
             {
                 SourceField = x.SourceField,
                 TargetField = x.TargetField
+            })
+            .ToListAsync(cancellationToken);
+    }
+    
+    public async Task<List<JsonMappingListDto>> GetMappingsAsync(
+        CancellationToken cancellationToken)
+    {
+        return await context.JsonMappings
+            .Include(x => x.Fields)
+            .Select(x => new JsonMappingListDto
+            {
+                Id = x.Id,
+
+                CreatedAt = x.CreatedAt,
+
+                Mappings = x.Fields
+                    .Select(field => new MappingDto
+                    {
+                        SourceField = field.SourceField,
+                        TargetField = field.TargetField
+                    })
+                    .ToList()
             })
             .ToListAsync(cancellationToken);
     }

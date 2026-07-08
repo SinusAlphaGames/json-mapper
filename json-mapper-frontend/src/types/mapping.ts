@@ -21,3 +21,9 @@ export interface SaveMappingRequest {
         targetField: string;
     }[];
 }
+
+export interface JsonMappingSummary {
+    id: string;
+    createdAt: string;
+    mappings: Mapping[];
+}

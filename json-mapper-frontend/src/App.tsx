@@ -1,7 +1,8 @@
-import {getMappings, mapJsonStrings, saveMappings} from "./api/mappingApi.ts";
+import {getJsonMappingsList, getMappings, mapJsonStrings, saveMappings} from "./api/mappingApi.ts";
 import {useState} from "react";
 import MappingTable from "./components/MappingTable";
-import type {Mapping, MappingResponse} from "./types/mapping.ts";
+import type {JsonMappingSummary, Mapping, MappingResponse} from "./types/mapping.ts";
+import MappingList from "./components/MappingList.tsx";
 
 function App() {
 
@@ -13,6 +14,10 @@ function App() {
     const [mappings, setMappings] = useState<Mapping[]>([]);
     const [targetOptions, setTargetOptions] = useState<string[]>([]);
 
+    const [savedMappings, setSavedMappings] =
+        useState<JsonMappingSummary[]>([]);
+    
+    
     const handleMapping = async () => {
 
         const response = await mapJsonStrings(
@@ -46,7 +51,7 @@ function App() {
 
         setTargetOptions(allTargets);
     };
-
+    
     const handleSave = async () => {
         try {
             await saveMappings({
@@ -75,6 +80,12 @@ function App() {
         ];
 
         setTargetOptions(targets);
+    };
+    
+    const handleLoadSavedMappings = async () => {
+        const result = await getJsonMappingsList();
+
+        setSavedMappings(result);
     };
     
     return (
@@ -116,7 +127,16 @@ function App() {
             <button onClick={handleLoadMappings}>
                 Load mappings
             </button>
+            <button onClick={handleLoadSavedMappings}>
+                Load saved mappings
+            </button>
 
+            
+                
+            <MappingList mappings={savedMappings}/>
+            
+            
+            
             {
                 mappings.length > 0 && (
                     <>

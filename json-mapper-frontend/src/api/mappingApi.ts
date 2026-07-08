@@ -1,4 +1,5 @@
 import type {
+    JsonMappingSummary,
     Mapping,
     MappingRequest,
     MappingResponse, SaveMappingRequest,
@@ -49,6 +50,21 @@ export async function saveMappings(
 export async function getMappings(): Promise<Mapping[]> {
 
     const response = await fetch(API_URL);
+
+    if (!response.ok) {
+        throw new Error(
+            `Backend returned ${response.status}`
+        );
+    }
+
+    return response.json();
+}
+
+export async function getJsonMappingsList(): Promise<JsonMappingSummary[]> {
+
+    const response = await fetch(
+        "http://localhost:5217/api/mapping/json/list"
+    );
 
     if (!response.ok) {
         throw new Error(
