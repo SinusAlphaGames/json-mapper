@@ -14,3 +14,10 @@ export interface MappingRequest {
     firstJson: unknown;
     secondJson: unknown;
 }
+
+export interface SaveMappingRequest {
+    mappings: {
+        sourceField: string;
+        targetField: string;
+    }[];
+}

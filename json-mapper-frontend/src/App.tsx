@@ -1,4 +1,4 @@
-import {mapJsonStrings} from "./api/mappingApi.ts";
+import {mapJsonStrings, saveMappings} from "./api/mappingApi.ts";
 import {useState} from "react";
 import MappingTable from "./components/MappingTable";
 import type {Mapping, MappingResponse} from "./types/mapping.ts";
@@ -47,7 +47,21 @@ function App() {
         setTargetOptions(allTargets);
     };
 
-
+    const handleSave = async () => {
+        try {
+            await saveMappings({
+                    mappings: mappings
+                        .map(x => ({
+                            sourceField: x.sourceField,
+                            targetField: x.targetField
+                        }))
+                });
+            alert("Mapping został zapisany.");
+        } catch (error) {
+            console.error(error);
+            alert("Nie udało się zapisać mappingu.");
+        }
+    };
 
     return (
         <div>
@@ -89,9 +103,13 @@ function App() {
 
             {
                 result && (
-                    <MappingTable mappings={mappings} onChange={setMappings} targetOptions={targetOptions}/>
-                )
-            }
+                    <>
+                        <MappingTable mappings={mappings} onChange={setMappings} targetOptions={targetOptions}/>
+                        <button onClick={handleSave}>
+                            Save mapping
+                        </button>
+                    </>
+                )}
 
         </div>
     );
