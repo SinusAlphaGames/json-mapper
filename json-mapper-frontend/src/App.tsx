@@ -1,5 +1,5 @@
 import {getJsonMappingsList, getMappings, mapJsonStrings, saveMappings} from "./api/mappingApi.ts";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import MappingTable from "./components/MappingTable";
 import type {JsonMappingSummary, Mapping, MappingResponse} from "./types/mapping.ts";
 import MappingList from "./components/MappingList.tsx";
@@ -17,6 +17,9 @@ function App() {
     const [savedMappings, setSavedMappings] =
         useState<JsonMappingSummary[]>([]);
     
+    useEffect(() => {
+        handleLoadSavedMappings();
+    }, []);
     
     const handleMapping = async () => {
 
@@ -62,6 +65,7 @@ function App() {
                         }))
                 });
             alert("Mapping został zapisany.");
+            await handleLoadSavedMappings();
         } catch (error) {
             console.error(error);
             alert("Nie udało się zapisać mappingu.");
@@ -86,6 +90,25 @@ function App() {
         const result = await getJsonMappingsList();
 
         setSavedMappings(result);
+    };
+
+    const handleMappingSelect = (
+        selected: JsonMappingSummary
+    ) => {
+
+        setMappings(
+            selected.mappings
+        );
+
+        const targets = [
+            ...new Set(
+                selected.mappings
+                    .map(x => x.targetField)
+                    .filter(x => x !== "")
+            )
+        ];
+
+        setTargetOptions(targets);
     };
     
     return (
@@ -124,18 +147,11 @@ function App() {
             <button onClick={handleMapping}>
                 Map JSON
             </button>
-            <button onClick={handleLoadMappings}>
-                Load mappings
-            </button>
-            <button onClick={handleLoadSavedMappings}>
-                Load saved mappings
-            </button>
-
+            {/*<button onClick={handleLoadSavedMappings}>*/}
+            {/*    Load saved mappings*/}
+            {/*</button>*/}
             
-                
-            <MappingList mappings={savedMappings}/>
-            
-            
+            <MappingList mappings={savedMappings} onSelect={handleMappingSelect} />
             
             {
                 mappings.length > 0 && (

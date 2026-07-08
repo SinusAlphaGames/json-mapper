@@ -2,9 +2,10 @@ import type { JsonMappingSummary } from "../types/mapping";
 
 interface Props {
     mappings: JsonMappingSummary[];
+    onSelect: (mapping: JsonMappingSummary) => void;
 }
 
-function MappingList({ mappings }: Props) {
+function MappingList({ mappings, onSelect }: Props) {
 
     return (
         <table>
@@ -27,7 +28,11 @@ function MappingList({ mappings }: Props) {
             <tbody>
             {
                 mappings.map(mapping => (
-                    <tr key={mapping.id}>
+                    <tr key={mapping.id}
+                        onClick={() => onSelect(mapping)}
+                        style={{
+                            cursor: "pointer"
+                        }}>
 
                         <td>
                             {mapping.id}
