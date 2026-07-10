@@ -281,3 +281,75 @@ Content-Type: application/json
 
 }
 
+###
+
+POST {{json_mapper_backend_HostAddress}}/api/mapping/json
+Content-Type: application/json
+
+{
+  "firstJson": {
+    "company": {
+      "name": "Test Corp",
+      "departments": [
+        {
+          "name": "IT",
+          "employees": [
+            {
+              "firstName": "Jan",
+              "skills": [
+                "C#",
+                "SQL",
+                "Azure"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "HR",
+          "employees": [
+            {
+              "firstName": "Anna",
+              "skills": [
+                "Recruiting",
+                "Communication"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "secondJson": {
+    "organization": {
+      "title": "Example Company",
+      "teams": [
+        {
+          "teamName": "Engineering",
+          "members": [
+            {
+              "givenName": "Jan",
+              "technologies": [
+                "C#",
+                "SQL",
+                "Azure"
+              ]
+            }
+          ]
+        },
+        {
+          "teamName": "People",
+          "members": [
+            {
+              "givenName": "Anna",
+              "technologies": [
+                "Recruitment",
+                "Communication"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+
+}
