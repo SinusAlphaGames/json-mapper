@@ -28,11 +28,11 @@ public static class JsonFlattener
                 break;
 
             case JsonArray jsonArray:
-                for (var i = 0; i < jsonArray.Count; i++)
-                {
-                    var path = $"{parentPath}[{i}]";
-                    ProcessNode(jsonArray[i], path, depth + 1, result);
-                }
+                
+                if (jsonArray.Count == 0)
+                    break;
+
+                ProcessArray(node, parentPath, depth, result, jsonArray);
                 break;
 
             default:
@@ -46,7 +46,34 @@ public static class JsonFlattener
                 break;
         }
     }
-    
+
+    private static void ProcessArray(JsonNode node, string parentPath, int depth, List<FieldNode> result, JsonArray jsonArray)
+    {
+        var first = jsonArray[0];
+
+        if (first is JsonObject)
+        {
+            foreach (var item in jsonArray)
+            {
+                ProcessNode(
+                    item,
+                    $"{parentPath}[]",
+                    depth + 1,
+                    result
+                );
+            }
+        }
+        else
+        {
+            result.Add(new FieldNode(
+                path: parentPath,
+                name: GetLastSegment(parentPath),
+                value: node,
+                depth: depth
+            ));
+        }
+    }
+
     private static string Combine(string parent, string child)
     {
         return string.IsNullOrEmpty(parent) ? child : $"{parent}.{child}";
