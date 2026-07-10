@@ -166,3 +166,118 @@ Content-Type: application/json
     }
   }
 }
+
+
+### arrays
+
+
+POST {{json_mapper_backend_HostAddress}}/api/mapping/json
+Content-Type: application/json
+
+{
+  "firstJson": {
+    "customerId": 123,
+    "name": "Example Company",
+    "tags": [
+      "vip",
+      "premium",
+      "newsletter"
+    ],
+    "allowedCountries": [
+      "PL",
+      "DE",
+      "CZ"
+    ],
+    "scores": [
+      10,
+      20,
+      30
+    ]
+  }, 
+  "secondJson": {
+    "clientNumber": 123,
+    "companyName": "Example Company",
+    "labels": [
+      "vip",
+      "premium",
+      "newsletter"
+    ],
+    "regions": [
+      "PL",
+      "DE",
+      "CZ"
+    ],
+    "ratings": [
+      10,
+      20,
+      30
+    ]
+  }
+  
+}
+
+###
+
+POST {{json_mapper_backend_HostAddress}}/api/mapping/json
+Content-Type: application/json
+
+{
+  "firstJson": {
+    "customers": [
+      {
+        "id": 1,
+        "firstName": "Jan",
+        "lastName": "Kowalski",
+        "address": {
+          "city": "Warsaw",
+          "country": "PL"
+        }
+      },
+      {
+        "id": 2,
+        "firstName": "Anna",
+        "lastName": "Nowak",
+        "address": {
+          "city": "Krakow",
+          "country": "PL"
+        }
+      }
+    ],
+    "orders": [
+      {
+        "orderNumber": "A001",
+        "amount": 150.50
+      }
+    ]
+  },
+  "secondJson": {
+    "clients": [
+      {
+        "customerId": 101,
+        "givenName": "Jan",
+        "surname": "Kowalski",
+        "location": {
+          "town": "Warsaw",
+          "countryCode": "PL"
+        }
+      },
+      {
+        "customerId": 102,
+        "givenName": "Anna",
+        "surname": "Nowak",
+        "location": {
+          "town": "Krakow",
+          "countryCode": "PL"
+        }
+      }
+    ],
+    "purchases": [
+      {
+        "referenceNumber": "A001",
+        "totalValue": 150.50
+      }
+    ]
+  }
+
+}
+

@@ -7,12 +7,12 @@ public static class JsonFlattener
 {
     public static IReadOnlyList<FieldNode> Flatten(JsonNode JsonRoot)
     {
-        var result = new List<FieldNode>();
+        var result = new Dictionary<string, FieldNode>();
         ProcessNode(JsonRoot, parentPath: "", depth: 0, result);
-        return result;
+        return result.Values.ToList();
     }
 
-    private static void ProcessNode(JsonNode? node, string parentPath, int depth, List<FieldNode> result)
+    private static void ProcessNode(JsonNode? node, string parentPath, int depth, Dictionary<string, FieldNode> result)
     {
         if (node is null)
             return;
@@ -37,17 +37,20 @@ public static class JsonFlattener
 
             default:
                 // JsonValue (liść)
-                result.Add(new FieldNode(
-                    path: parentPath,
-                    name: GetLastSegment(parentPath),
-                    value: node,
-                    depth: depth
-                ));
+                if (!result.ContainsKey(parentPath))
+                {
+                    result.Add(parentPath, new FieldNode(
+                        path: parentPath,
+                        name: GetLastSegment(parentPath),
+                        value: node,
+                        depth: depth
+                    ));    
+                }
                 break;
         }
     }
 
-    private static void ProcessArray(JsonNode node, string parentPath, int depth, List<FieldNode> result, JsonArray jsonArray)
+    private static void ProcessArray(JsonNode node, string parentPath, int depth, Dictionary<string, FieldNode> result, JsonArray jsonArray)
     {
         var first = jsonArray[0];
 
@@ -65,12 +68,16 @@ public static class JsonFlattener
         }
         else
         {
-            result.Add(new FieldNode(
-                path: parentPath,
-                name: GetLastSegment(parentPath),
-                value: node,
-                depth: depth
-            ));
+            if (!result.ContainsKey(parentPath))
+            {
+                result.Add(parentPath, new FieldNode(
+                    path: parentPath,
+                    name: GetLastSegment(parentPath),
+                    value: node,
+                    depth: depth
+                ));    
+            }
+            
         }
     }
 
