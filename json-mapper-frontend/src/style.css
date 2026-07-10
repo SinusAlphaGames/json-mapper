@@ -96,6 +96,7 @@ textarea {
   width: calc(45% - 15px);
   margin-right: 20px;
   vertical-align: top;
+  resize: none;
 }
 
 textarea:focus {
