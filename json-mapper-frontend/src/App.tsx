@@ -114,9 +114,10 @@ function App() {
 
     const handleMapValues = async () => {
         try {
+            const secondJsonValidated = secondJson ? secondJson : "{}";
             const mappedJson = await mapJsonValues(
                 firstJson,
-                secondJson,
+                secondJsonValidated,
                 mappings
             );
 
