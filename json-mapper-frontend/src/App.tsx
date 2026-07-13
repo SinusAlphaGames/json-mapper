@@ -1,4 +1,4 @@
-import {getJsonMappingsList, getMappings, mapJsonStrings, saveMappings} from "./api/mappingApi.ts";
+import {getJsonMappingsList, getMappings, mapJsonStrings, mapJsonValues, saveMappings} from "./api/mappingApi.ts";
 import {useEffect, useState} from "react";
 import MappingTable from "./components/MappingTable";
 import type {JsonMappingSummary, Mapping, MappingResponse} from "./types/mapping.ts";
@@ -14,8 +14,9 @@ function App() {
     const [mappings, setMappings] = useState<Mapping[]>([]);
     const [targetOptions, setTargetOptions] = useState<string[]>([]);
 
-    const [savedMappings, setSavedMappings] =
-        useState<JsonMappingSummary[]>([]);
+    const [savedMappings, setSavedMappings] = useState<JsonMappingSummary[]>([]);
+    
+    const [mappedJson, setMappedJson] = useState("");
     
     useEffect(() => {
         handleLoadSavedMappings();
@@ -110,6 +111,24 @@ function App() {
 
         setTargetOptions(targets);
     };
+
+    const handleMapValues = async () => {
+        try {
+            const mappedJson = await mapJsonValues(
+                firstJson,
+                secondJson,
+                mappings
+            );
+
+            setMappedJson(
+                JSON.stringify(mappedJson, null, 2)
+            );
+
+        } catch (error) {
+            console.error(error);
+            alert("Nie udało się zmapować wartości JSON.");
+        }
+    };
     
     return (
         <div>
@@ -147,9 +166,6 @@ function App() {
             <button onClick={handleMapping}>
                 Map JSON
             </button>
-            {/*<button onClick={handleLoadSavedMappings}>*/}
-            {/*    Load saved mappings*/}
-            {/*</button>*/}
             
             <MappingList mappings={savedMappings} onSelect={handleMappingSelect} />
             
@@ -157,9 +173,22 @@ function App() {
                 mappings.length > 0 && (
                     <>
                         <MappingTable mappings={mappings} onChange={setMappings} targetOptions={targetOptions}/>
-                        <button onClick={handleSave}>
-                            Save mapping
-                        </button>
+                        <div className="buttons-container">
+                            <button onClick={handleSave}>
+                                Save mapping
+                            </button>
+
+                            <button onClick={handleMapValues}>
+                                Map json values
+                            </button>
+                        </div>
+                        <textarea className="mapped-json-textarea"
+                            placeholder="Mapped json"
+                            value={mappedJson}
+                            readOnly
+                            rows={20}
+                            cols={50}
+                        />
                     </>
                 )
             }

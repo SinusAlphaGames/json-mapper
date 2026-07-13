@@ -75,6 +75,39 @@ export async function getJsonMappingsList(): Promise<JsonMappingSummary[]> {
     return response.json();
 }
 
+export async function mapJsonValues(
+    firstJson: string,
+    secondJson: string,
+    mappings: Mapping[]
+): Promise<unknown> { //TODO zmienic na konkretny typ
+
+    const response = await fetch(
+        API_URL + "/apply",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                sourceJson: JSON.parse(firstJson),
+                targetJson: JSON.parse(secondJson),
+                mappings: mappings.map(x => ({
+                    sourceField: x.sourceField,
+                    targetField: x.targetField
+                }))
+            }),
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error(
+            `Backend returned ${response.status}`
+        );
+    }
+
+    return response.json();
+}
+
 
 export async function mapJsonStrings(
     first: string,

@@ -27,3 +27,9 @@ export interface JsonMappingSummary {
     createdAt: string;
     mappings: Mapping[];
 }
+
+export interface MapValuesRequest {
+    sourceJson: unknown;
+    targetJson: unknown;
+    mappings: Mapping[];
+}
