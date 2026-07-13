@@ -1,7 +1,8 @@
-using System.Text.Json.Nodes;
 using MediatR;
+using System.Text.Json.Nodes;
+using JsonMapper.Application.Json.apply;
 
-namespace JsonMapper.Application.Json.apply;
+namespace JsonMapper.Application.Json.Apply;
 
 public class ApplyJsonMappingHandler 
     : IRequestHandler<ApplyJsonMappingCommand, JsonObject>
@@ -10,60 +11,174 @@ public class ApplyJsonMappingHandler
         ApplyJsonMappingCommand request,
         CancellationToken cancellationToken)
     {
-        var result = request.TargetJson.DeepClone()
+        var result = request.TargetJson
+            .DeepClone()
             .AsObject();
 
         foreach (var mapping in request.Mappings)
         {
             if (string.IsNullOrWhiteSpace(mapping.TargetField))
                 continue;
-            
-            var value = GetValue(
+
+            var values = GetValues(
                 request.SourceJson,
                 mapping.SourceField);
 
-            SetValue(
+            SetValues(
                 result,
                 mapping.TargetField,
-                value);
+                values);
         }
 
         return Task.FromResult(result);
     }
 
 
-    private static JsonNode? GetValue(JsonObject json, string path)
+    private static List<JsonNode?> GetValues(
+        JsonNode node,
+        string path)
     {
         var parts = path.Split('.');
 
-        JsonNode? current = json;
+        var result = new List<JsonNode?>();
 
-        foreach (var part in parts)
-        {
-            current = current?[part];
-        }
+        CollectValues(
+            node,
+            parts,
+            0,
+            result);
 
-        return current;
+        return result;
     }
 
 
-    private static void SetValue(JsonObject json, string path, JsonNode? value)
+    private static void CollectValues(
+        JsonNode? current,
+        string[] parts,
+        int index,
+        List<JsonNode?> result)
+    {
+        if (current == null)
+            return;
+
+
+        if (index == parts.Length)
+        {
+            result.Add(current);
+            return;
+        }
+
+
+        var part = parts[index];
+
+
+        if (part.EndsWith("[]"))
+        {
+            var propertyName = part[..^2];
+
+            if (current[propertyName] is not JsonArray array)
+                return;
+
+
+            foreach (var item in array)
+            {
+                CollectValues(
+                    item,
+                    parts,
+                    index + 1,
+                    result);
+            }
+
+            return;
+        }
+
+
+        if (current[part] != null)
+        {
+            CollectValues(
+                current[part],
+                parts,
+                index + 1,
+                result);
+        }
+    }
+
+
+    private static void SetValues(
+        JsonObject target,
+        string path,
+        List<JsonNode?> values)
     {
         var parts = path.Split('.');
 
-        JsonObject current = json;
+        var valueIndex = 0;
 
-        for (int i = 0; i < parts.Length - 1; i++)
+        ApplyValues(
+            target,
+            parts,
+            0,
+            values,
+            ref valueIndex);
+    }
+
+
+    private static void ApplyValues(
+        JsonNode? current,
+        string[] parts,
+        int index,
+        List<JsonNode?> values,
+        ref int valueIndex)
+    {
+        if (current == null)
+            return;
+
+
+        if (index == parts.Length - 1)
         {
-            if (current[parts[i]] is not JsonObject next)
+            if (current is JsonObject obj)
             {
-                next = new JsonObject();
-                current[parts[i]] = next;
+                obj[parts[index]] =
+                    values[valueIndex++]?.DeepClone();
             }
 
-            current = next;
+            return;
         }
 
-        current[parts[^1]] = value?.DeepClone();
+
+        var part = parts[index];
+
+
+        if (part.EndsWith("[]"))
+        {
+            var propertyName = part[..^2];
+
+
+            if (current[propertyName] is not JsonArray array)
+                return;
+
+
+            foreach (var item in array)
+            {
+                ApplyValues(
+                    item,
+                    parts,
+                    index + 1,
+                    values,
+                    ref valueIndex);
+            }
+
+            return;
+        }
+
+
+        if (current[part] != null)
+        {
+            ApplyValues(
+                current[part],
+                parts,
+                index + 1,
+                values,
+                ref valueIndex);
+        }
     }
 }
