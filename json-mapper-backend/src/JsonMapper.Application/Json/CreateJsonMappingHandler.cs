@@ -68,22 +68,21 @@ public class CreateJsonMappingHandler(
         var usedTargets = new HashSet<int>();
 
 
-        for (int i = 0; i < assignments.Length; i++)
+        for (int i = 0; i < sources.Count; i++)
         {
             var j = assignments[i];
-
-            if (i >= sources.Count || j >= targets.Count)
-                continue;
             
-            double score = 0;
-
-            if (scoreMap.TryGetValue((sources[i], targets[j]), out var s))
-                score = s;
-
-            if (score < 0.7)
+            if (j >= targets.Count)
             {
                 unmapped.Add(sources[i]);
                 continue;
+            }
+            
+            if (!scoreMap.TryGetValue((sources[i], targets[j]), out var score) || score < 0.5)
+            {
+                unmapped.Add(sources[i]);
+                continue;
+                
             }
             
             result.Add(new FieldMapping

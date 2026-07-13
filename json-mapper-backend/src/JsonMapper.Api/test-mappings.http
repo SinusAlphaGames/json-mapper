@@ -353,3 +353,58 @@ Content-Type: application/json
   }
 
 }
+
+###
+
+POST {{json_mapper_backend_HostAddress}}/api/mapping/json
+Content-Type: application/json
+
+{
+  "firstJson": {
+    "firstName": "Jan",
+    "lastName": "Kowalski",
+    "email": "jan.kowalski@example.com"
+  },
+  "secondJson": {
+    "customer": {
+      "name": {
+        "givenName": "",
+        "familyName": ""
+      },
+      "contact": {
+        "emailAddress": "",
+        "phoneNumber": ""
+      },
+      "address": {
+        "street": "",
+        "city": "",
+        "postalCode": ""
+      }
+    }
+  }
+}
+
+
+###
+
+POST {{json_mapper_backend_HostAddress}}/api/mapping/json
+Content-Type: application/json
+
+{
+  "firstJson": {
+    "firstName": "Jan",
+    "lastName": "Kowalski",
+    "email": "jan.kowalski@example.com",
+    "phone": "+48123123123",
+    "birthDate": "1990-01-01",
+    "city": "Warszawa",
+    "country": "Polska"
+  },
+  "secondJson": {
+    "customer": {
+      "name": "",
+      "email": "",
+      "phone": ""
+    }
+  }
+}
