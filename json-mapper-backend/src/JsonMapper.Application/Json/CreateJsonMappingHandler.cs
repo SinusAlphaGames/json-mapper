@@ -50,14 +50,20 @@ public class CreateJsonMappingHandler(
         var matrix = new int[n, n];
         const int scale = 1000;
         
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                matrix[i, j] = scale;
+            }
+        }
+        
         for (int i = 0; i < sources.Count; i++)
         {
             for (int j = 0; j < targets.Count; j++)
             {
                 if (scoreMap.TryGetValue((sources[i], targets[j]), out var score))
                     matrix[i, j] = (int)Math.Round((1.0 - score) * scale);   // cost
-                else
-                    matrix[i, j] = scale;          // brak dopasowania
             }
         }
 
