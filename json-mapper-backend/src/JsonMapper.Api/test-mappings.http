@@ -408,3 +408,33 @@ Content-Type: application/json
     }
   }
 }
+
+###
+
+
+POST {{json_mapper_backend_HostAddress}}/api/mapping/json
+Content-Type: application/json
+
+{
+  "firstJson": {
+    "firstName": "Jan",
+    "lastName": "Kowalski",
+    "email": "jan@example.com",
+    "phone": "+48123123123"
+  },
+  "secondJson": {
+    "customer": {
+      "name": "",
+      "surname": "",
+      "emailAddress": "",
+      "phoneNumber": ""
+    },
+    "audit": {
+      "checksum": "",
+      "hashAlgorithm": "",
+      "encryptionKeyId": "",
+      "replicationNode": "",
+      "partitionToken": ""
+    }
+  }
+}

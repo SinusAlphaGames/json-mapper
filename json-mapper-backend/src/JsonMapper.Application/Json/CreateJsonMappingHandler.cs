@@ -21,11 +21,11 @@ public class CreateJsonMappingHandler(
         var secondJsonGuid = SaveEmbeddings(flattenSecondJsonFields, cancellationToken);
         
         var sourceFieldCandidates = await FindCandidates(flattenFirstJsonFields, secondJsonGuid, cancellationToken);
-        var result = AssignFields(sourceFieldCandidates);
+        var result = AssignFields(sourceFieldCandidates, flattenSecondJsonFields);
         return result;
     }
 
-    private static CreateJsonMappingResult AssignFields(List<SourceFieldCandidates> sourceFieldCandidates)
+    private static CreateJsonMappingResult AssignFields(List<SourceFieldCandidates> sourceFieldCandidates,  IReadOnlyList<FieldNode> allTargetFields)
     {
         var sources = sourceFieldCandidates
             .Select(x => x.SourceField)
@@ -101,10 +101,13 @@ public class CreateJsonMappingHandler(
             usedTargets.Add(j);
         }
         
-        var unusedTargets = targets
-            .Select((t, i) => (t, i))
-            .Where(x => !usedTargets.Contains(x.i))
-            .Select(x => x.t)
+        var usedTargetPaths = result
+            .Select(x => x.TargetField)
+            .ToHashSet();
+        
+        var unusedTargets = allTargetFields
+            .Select(x => x.Path)
+            .Where(x => !usedTargetPaths.Contains(x))
             .ToList();
         
         return new CreateJsonMappingResult
